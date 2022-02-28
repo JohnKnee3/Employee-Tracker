@@ -1,0 +1,1 @@
+12.1.4 Got SQL set up. Made our first database with CREATE DATABASE election;, then selected it with USE election; and then added a table to it table with CREATETABLE();. Typed DESCRIBE candidates to view the table.
