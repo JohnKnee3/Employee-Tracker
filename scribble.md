@@ -1,3 +1,13 @@
+mysql -u root -p
+
+SELECT \* FROM candidates;
+SELECT first_name, last_name FROM candidates;
+DESCRIBE candidates;
+
+source db/db.sql
+source db/schema.sql
+source db/seeds.sql
+
 12.1.4 Got SQL set up. Made our first database with CREATE DATABASE election;, then selected it with USE election; and then added a table to it table with CREATETABLE();. Typed DESCRIBE candidates to view the table. --mysql -u root -p-- opens up the ability to use SQL.
 
 12.1.5 Learned how to add data to a table using
@@ -52,3 +62,4 @@ and delete entire rows with this syntax
 DELETE FROM candidates
 WHERE first_name = "Montague";
 Then they scolded us for deleting by name and not ID.
+12.2.3 A fair amount of setup for express, jest, sql and npm. I will have to refer to this to get the project set up.
