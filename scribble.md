@@ -73,3 +73,13 @@ Then they scolded us for deleting by name and not ID.
 const params = [1, "Ronald", "Firbank", 1];
 
 db.query(sql, params, (err, result) => {-- to add that same person back into the condidates table.
+
+12.2.5 Showed how to set up express.js to talk to our SQL db table canddiates. We used a get to grab the entire table --app.get("/api/candidates", (req, res) => {
+const sql = `SELECT * FROM candidates`;
+
+db.query(sql, (err, rows) => {-- and another get to grab s specific row by id
+--app.get("/api/candidate/:id", (req, res) => {
+const sql = `SELECT * FROM candidates WHERE id = ?`;
+const params = [req.params.id];
+
+db.query(sql, params, (err, row) => {--.
