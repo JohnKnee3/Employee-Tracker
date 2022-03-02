@@ -9,6 +9,7 @@ SELECT first_name, last_name FROM candidates; displays just these selected seeds
 DESCRIBE candidates; shows all the column names
 
 ALTER TABLE candidates ADD COLUMN party_id INTEGER; adds a column named party id to the selected table.
+DROP TABLE IF EXISTS parties;
 
 source db/db.sql
 source db/schema.sql
@@ -272,3 +273,21 @@ Then in the params var we make sure to call it correctly with req.body.part_id b
 SELECT \* FROM items
 LEFT JOIN categories ON items.category_id = categories.id;
 Was the simple way to join to tables from the quiz.
+
+12.4.3 Set up the voters table in the schema.sql and gave it this
+
+## new time stamp feature.
+
+CREATE TABLE voters (
+id INTEGER AUTO_INCREMENT PRIMARY KEY,
+first_name VARCHAR(30) NOT NULL,
+last_name VARCHAR(30) NOT NULL,
+email VARCHAR(50) NOT NULL,
+created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+--
+
+then we seeded 50 voters in seeds.sql.
+/
+/
+/
