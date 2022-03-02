@@ -268,3 +268,7 @@ This code is a bit more involved. But we create a check that tests if you select
 Then the next two lines are the Update which lays the ground work SET making sure the first value is the party_id from the body of what is being sent in at the location of the param from the URL that zeroes in on the candidates table row.
 
 Then in the params var we make sure to call it correctly with req.body.part_id being the new id sent in and the req.params.id being the candidate being targeted by the URL.
+
+SELECT \* FROM items
+LEFT JOIN categories ON items.category_id = categories.id;
+Was the simple way to join to tables from the quiz.
