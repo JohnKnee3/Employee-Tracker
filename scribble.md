@@ -160,3 +160,7 @@ data: body,
 });
 --
 The main thing to note is we are using a module provided function to check if the input fields are correct. Everything else works as expected.
+/
+/
+/
+12.3.3 We added a new table to the seeds.sql named parties. We ran all this in the terminal. Basically you can just run the file that is being updated. So if you update schema.sql, after you save go into the terminal and type --source db/schema.sql-- and it will update SQL based on the file. Same applies to seeds.sql just use --source db/seeds.sql-- to update what gets populated. It is worth noting that running the seeds over and over again will add duplicate info. To reset just run all three pages in order to clear it out.
