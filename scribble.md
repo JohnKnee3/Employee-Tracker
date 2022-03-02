@@ -128,3 +128,35 @@ id: req.params.id,
 });
 --
 It's worth showing this entire thing because of the else if statement that checks to see if what you are trying to delete exists. If so it warns you and doesn't let you do it.
+/
+/
+/
+12.2.7 Showed how to use express.js to talk to our SQL db table candidates again. This we used app.post to add a row to the exsisting candidates table. The generate ID is handeled by the id INTEGER AUTO_INCREMENT in the shema.js. Here is a look at the entire code block we added.  
+--
+app.post("/api/candidate", ({ body }, res) => {
+const errors = inputCheck(
+body,
+"first_name",
+"last_name",
+"industry_connected"
+);
+if (errors) {
+res.status(400).json({ error: errors });
+return;
+}
+const sql = `INSERT INTO candidates (first_name, last_name, industry_connected) VALUES (?,?,?)`;
+const params = [body.first_name, body.last_name, body.industry_connected];
+
+db.query(sql, params, (err, result) => {
+if (err) {
+res.status(400).json({ error: err.message });
+return;
+}
+res.json({
+message: "success",
+data: body,
+});
+});
+});
+--
+The main thing to note is we are using a module provided function to check if the input fields are correct. Everything else works as expected.
