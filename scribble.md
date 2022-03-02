@@ -133,8 +133,10 @@ It's worth showing this entire thing because of the else if statement that check
 /
 /
 /
-12.2.7 Showed how to use express.js to talk to our SQL db table candidates again. This we used app.post to add a row to the exsisting candidates table. The generate ID is handeled by the id INTEGER AUTO_INCREMENT in the shema.js. Here is a look at the entire code block we added.  
---
+12.2.7 Showed how to use express.js to talk to our SQL db table candidates again. This we used app.post to add a row to the exsisting candidates table. The generate ID is handeled by the id INTEGER AUTO_INCREMENT in the shema.js.
+
+## Here is a look at the entire code block we added.
+
 app.post("/api/candidate", ({ body }, res) => {
 const errors = inputCheck(
 body,
@@ -169,8 +171,10 @@ The main thing to note is we are using a module provided function to check if th
 /
 /
 /
-12.3.4 We learned how to link to different tables together. First we modified the candidates table to ensure it has a party_id line. Then we added the constraint line so that it will take this newly created party_id and send it into the parties table to find it's matching id over there. The code looks like this.
---
+12.3.4 We learned how to link to different tables together. First we modified the candidates table to ensure it has a party_id line. Then we added the constraint line so that it will take this newly created party_id and send it into the parties table to find it's matching id over there.
+
+## The code looks like this.
+
 CREATE TABLE candidates (
 id INTEGER AUTO_INCREMENT PRIMARY KEY,
 first_name VARCHAR(30) NOT NULL,
@@ -199,3 +203,68 @@ app.get("/api/candidate/:id", (req, res) => {
 const sql = `SELECT candidates.*, parties.name AS party_name FROM candidates LEFT JOIN parties ON candidates.party_id = parties.id WHERE candidates.id = ?`;
 --
 To make sure it looks at the passed in candidates entire id for the search so we don't just grab every candidate.
+/
+/
+/
+12.3.6 Added a get all parties and get by id parties and delete by id parties. This code is identical to how we handled the candidates table before we linked it to the parties table.
+
+## Get all parties
+
+app.get("/api/parties", (req, res) => {
+const sql = `SELECT * FROM parties`;
+--
+
+## Get party by id
+
+app.get("/api/party/:id", (req, res) => {
+const sql = `SELECT * FROM parties WHERE id = ?`;
+const params = [req.params.id];
+--
+
+## Delete party by id
+
+app.delete("/api/party/:id", (req, res) => {
+const sql = `DELETE FROM parties WHERE id = ?`;
+const params = [req.params.id];
+--
+/
+/
+/
+12.3.7 Created a put for party_id in the candidates table. This allows us to update the candidates party. put = edit.
+
+## Code for the put
+
+app.put("/api/candidate/:id", (req, res) => {
+const errors = inputCheck(req.body, "party_id");
+
+if (errors) {
+res.status(400).json({ error: errors });
+return;
+}
+
+const sql = `UPDATE candidates SET party_id = ? WHERE id = ?`;
+const params = [req.body.party_id, req.params.id];
+db.query(sql, params, (err, result) => {
+if (err) {
+res.status(400).json({ error: err.message });
+// check if a record was found
+} else if (!result.affectedRows) {
+res.json({
+message: "Candidate not found",
+});
+} else {
+res.json({
+message: "success",
+data: req.body,
+changes: result.affectedRows,
+});
+}
+});
+});
+--
+
+This code is a bit more involved. But we create a check that tests if you selected a valid party id.
+
+Then the next two lines are the Update which lays the ground work SET making sure the first value is the party_id from the body of what is being sent in at the location of the param from the URL that zeroes in on the candidates table row.
+
+Then in the params var we make sure to call it correctly with req.body.part_id being the new id sent in and the req.params.id being the candidate being targeted by the URL.
