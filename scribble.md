@@ -11,9 +11,13 @@ DESCRIBE candidates; shows all the column names
 source db/db.sql
 source db/schema.sql
 source db/seeds.sql
-
+/
+/
+/
 12.1.4 Got SQL set up. Made our first database with CREATE DATABASE election;, then selected it with USE election; and then added a table to it table with CREATETABLE();. Typed DESCRIBE candidates to view the table. --mysql -u root -p-- opens up the ability to use SQL.
-
+/
+/
+/
 12.1.5 Learned how to add data to a table using
 INSERT INTO candidates (first_name, last_name, industry_connected)
 VALUES
@@ -27,7 +31,9 @@ SELECT first_name
 FROM candidates
 WHERE industry_connected = 1;
 Which will show the first name of everyone apart of the industry_connected.
-
+/
+/
+/
 12.1.6 We learned how to set up files in JS to perform the SQL bits for us. First we created db.sql in the db folder to handle the creation of the databse named election.
 
 DROP DATABASE IF EXISTS election;
@@ -66,14 +72,20 @@ and delete entire rows with this syntax
 DELETE FROM candidates
 WHERE first_name = "Montague";
 Then they scolded us for deleting by name and not ID.
-
+/
+/
+/
 12.2.3 A fair amount of setup for express, jest, sql and npm. I will have to refer to this to get the project set up.
-
+/
+/
+/
 12.2.4 Set up mulitple db.query's in the server.js that all ran by just hitting npm start. We used --db.query(`SELECT * FROM candidates`, (err, rows) => {-- to show the entire table and then used --db.query(`SELECT * FROM candidates WHERE id = 1`, (err, row) => {-- to just show the first row. We then used -- db.query(`DELETE FROM candidates WHERE id = ?`, 1, (err, result) => {-- to delete the first row and finally used --const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected) VALUES (?,?,?,?)`;
 const params = [1, "Ronald", "Firbank", 1];
 
 db.query(sql, params, (err, result) => {-- to add that same person back into the condidates table.
-
+/
+/
+/
 12.2.5 Showed how to set up express.js to talk to our SQL db table canddiates. We used a get to grab the entire table --app.get("/api/candidates", (req, res) => {
 const sql = `SELECT * FROM candidates`;
 
