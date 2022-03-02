@@ -86,12 +86,45 @@ db.query(sql, params, (err, result) => {-- to add that same person back into the
 /
 /
 /
-12.2.5 Showed how to set up express.js to talk to our SQL db table canddiates. We used a get to grab the entire table --app.get("/api/candidates", (req, res) => {
+12.2.5 Showed how to set up express.js to talk to our SQL db table canddiates. We used a get to grab the entire table
+--
+app.get("/api/candidates", (req, res) => {
 const sql = `SELECT * FROM candidates`;
 
-db.query(sql, (err, rows) => {-- and another get to grab s specific row by id
---app.get("/api/candidate/:id", (req, res) => {
+## db.query(sql, (err, rows) => {
+
+## and another get to grab a specific row by id
+
+app.get("/api/candidate/:id", (req, res) => {
 const sql = `SELECT * FROM candidates WHERE id = ?`;
 const params = [req.params.id];
 
-db.query(sql, params, (err, row) => {--.
+db.query(sql, params, (err, row) => {
+--.
+/
+/
+/
+12.2.6 Showed how to use express.js to talk to our SQL db table candidates again. This time we used app.delete to target a row by it's id and delete it from the table.
+--
+app.delete("/api/candidate/:id", (req, res) => {
+const sql = `DELETE FROM candidates WHERE id = ?`;
+const params = [req.params.id];
+
+db.query(sql, params, (err, result) => {
+if (err) {
+res.statusMessage(400).json({ error: res.message });
+} else if (!result.affectedRows) {
+res.json({
+message: "Candidate not found",
+});
+} else {
+res.json({
+message: "deleted",
+changes: result.affectedRows,
+id: req.params.id,
+});
+}
+});
+});
+--
+It's worth showing this entire thing because of the else if statement that checks to see if what you are trying to delete exists. If so it warns you and doesn't let you do it.
