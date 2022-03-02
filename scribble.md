@@ -1,8 +1,12 @@
 mysql -u root -p
 
-SELECT \* FROM candidates;
-SELECT first_name, last_name FROM candidates;
-DESCRIBE candidates;
+SHOW DATABASES; shows a dbs
+USE election; this is how you select one
+SHOW TABLES; shows a list of all tables
+
+SELECT \* FROM candidates; displays all the seeds
+SELECT first_name, last_name FROM candidates; displays just these selected seeds.
+DESCRIBE candidates; shows all the column names
 
 source db/db.sql
 source db/schema.sql
@@ -62,4 +66,5 @@ and delete entire rows with this syntax
 DELETE FROM candidates
 WHERE first_name = "Montague";
 Then they scolded us for deleting by name and not ID.
+
 12.2.3 A fair amount of setup for express, jest, sql and npm. I will have to refer to this to get the project set up.
