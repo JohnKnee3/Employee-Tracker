@@ -68,3 +68,8 @@ WHERE first_name = "Montague";
 Then they scolded us for deleting by name and not ID.
 
 12.2.3 A fair amount of setup for express, jest, sql and npm. I will have to refer to this to get the project set up.
+
+12.2.4 Set up mulitple db.query's in the server.js that all ran by just hitting npm start. We used --db.query(`SELECT * FROM candidates`, (err, rows) => {-- to show the entire table and then used --db.query(`SELECT * FROM candidates WHERE id = 1`, (err, row) => {-- to just show the first row. We then used -- db.query(`DELETE FROM candidates WHERE id = ?`, 1, (err, result) => {-- to delete the first row and finally used --const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected) VALUES (?,?,?,?)`;
+const params = [1, "Ronald", "Firbank", 1];
+
+db.query(sql, params, (err, result) => {-- to add that same person back into the condidates table.
