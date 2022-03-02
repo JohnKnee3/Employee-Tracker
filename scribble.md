@@ -8,6 +8,8 @@ SELECT \* FROM candidates; displays all the seeds
 SELECT first_name, last_name FROM candidates; displays just these selected seeds.
 DESCRIBE candidates; shows all the column names
 
+ALTER TABLE candidates ADD COLUMN party_id INTEGER; adds a column named party id to the selected table.
+
 source db/db.sql
 source db/schema.sql
 source db/seeds.sql
@@ -164,3 +166,21 @@ The main thing to note is we are using a module provided function to check if th
 /
 /
 12.3.3 We added a new table to the seeds.sql named parties. We ran all this in the terminal. Basically you can just run the file that is being updated. So if you update schema.sql, after you save go into the terminal and type --source db/schema.sql-- and it will update SQL based on the file. Same applies to seeds.sql just use --source db/seeds.sql-- to update what gets populated. It is worth noting that running the seeds over and over again will add duplicate info. To reset just run all three pages in order to clear it out.
+/
+/
+/
+12.3.4 We learned how to link to different tables together. First we modified the candidates table to ensure it has a party_id line. Then we added the constraint line so that it will take this newly created party_id and send it into the parties table to find it's matching id over there. The code looks like this.
+--
+CREATE TABLE candidates (
+id INTEGER AUTO_INCREMENT PRIMARY KEY,
+first_name VARCHAR(30) NOT NULL,
+last_name VARCHAR(30) NOT NULL,
+party_id INTEGER,
+industry_connected BOOLEAN NOT NULL,
+CONSTRAINT fk_party FOREIGN KEY (party_id) REFERENCES parties(id) ON DELETE SET NULL
+);
+--
+We then updated the seeds to match the new requirements for the candidates table. Also any linked table must come before(above) the main table that is referencing it and when you drop tables the reverse it true.
+/
+/
+/
