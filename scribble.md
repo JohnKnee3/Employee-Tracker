@@ -184,3 +184,18 @@ We then updated the seeds to match the new requirements for the candidates table
 /
 /
 /
+12.3.5 Used express.js to work with the sql to get the linked tables. We had to modify the sql vars for both gets to accommodate this new table.
+
+## We changed the get all sql var to look like this.
+
+app.get("/api/candidates", (req, res) => {
+const sql = `SELECT candidates.*, parties.name AS party_name FROM candidates LEFT JOIN parties ON candidates.party_id = parties.id`;
+--
+This basically says we are getting all info from the candidates table. Then we are only grabbing the name from the parties table where FROM candidates is referencing the root table. Then we bring in the parties table and target it's id by grabbing party_id from the candidates table.
+
+## Finally for the get by id we just add 1 more line like this.
+
+app.get("/api/candidate/:id", (req, res) => {
+const sql = `SELECT candidates.*, parties.name AS party_name FROM candidates LEFT JOIN parties ON candidates.party_id = parties.id WHERE candidates.id = ?`;
+--
+To make sure it looks at the passed in candidates entire id for the search so we don't just grab every candidate.
