@@ -37,7 +37,10 @@ Which will show the first name of everyone apart of the industry_connected.
 /
 /
 /
-12.1.6 We learned how to set up files in JS to perform the SQL bits for us. First we created db.sql in the db folder to handle the creation of the databse named election.
+
+## 12.1.6
+
+We learned how to set up files in JS to perform the SQL bits for us. First we created db.sql in the db folder to handle the creation of the databse named election.
 
 DROP DATABASE IF EXISTS election;
 CREATE DATABASE election;
@@ -52,7 +55,8 @@ last_name VARCHAR(30) NOT NULL,
 industry_connected BOOLEAN NOT NULL
 );
 
-Finally we added the seeds.sql file to populate the table and routed to it with mysql> source db/seeds.sql. The file looked like this when done.
+## Finally we added the seeds.sql file to populate the table and routed to it with mysql> source db/seeds.sql. The file looked like this when done.
+
 INSERT INTO candidates (first_name, last_name, industry_connected)
 VALUES
 ('Ronald', 'Firbank', 1),
@@ -65,36 +69,51 @@ VALUES
 ('Montague', 'Summers', 1),
 ('Octavia', 'Butler', 1),
 ('Unica', 'Zurn', 1);
+--.
 
-After that we learned the syntax to update specific columns and rows with this syntax
+## After that we learned the syntax to update specific columns and rows with this syntax
+
 UPDATE candidates
 SET industry_connected = 1
 WHERE id = 3;
+--.
 
-and delete entire rows with this syntax
+## and delete entire rows with this syntax
+
 DELETE FROM candidates
 WHERE first_name = "Montague";
 Then they scolded us for deleting by name and not ID.
+--.
 /
 /
 /
-12.2.3 A fair amount of setup for express, jest, sql and npm. I will have to refer to this to get the project set up.
+
+## 12.2.3
+
+A fair amount of setup for express, jest, sql and npm. I will have to refer to this to get the project set up.
 /
 /
 /
-12.2.4 Set up mulitple db.query's in the server.js that all ran by just hitting npm start. We used --db.query(`SELECT * FROM candidates`, (err, rows) => {-- to show the entire table and then used --db.query(`SELECT * FROM candidates WHERE id = 1`, (err, row) => {-- to just show the first row. We then used -- db.query(`DELETE FROM candidates WHERE id = ?`, 1, (err, result) => {-- to delete the first row and finally used --const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected) VALUES (?,?,?,?)`;
+
+## 12.2.4
+
+Set up mulitple db.query's in the server.js that all ran by just hitting npm start. We used --db.query(`SELECT * FROM candidates`, (err, rows) => {-- to show the entire table and then used --db.query(`SELECT * FROM candidates WHERE id = 1`, (err, row) => {-- to just show the first row. We then used -- db.query(`DELETE FROM candidates WHERE id = ?`, 1, (err, result) => {-- to delete the first row and finally used --const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected) VALUES (?,?,?,?)`;
 const params = [1, "Ronald", "Firbank", 1];
 
 db.query(sql, params, (err, result) => {-- to add that same person back into the condidates table.
 /
 /
 /
-12.2.5 Showed how to set up express.js to talk to our SQL db table canddiates. We used a get to grab the entire table
---
+
+## 12.2.5
+
+## Showed how to set up express.js to talk to our SQL db table canddiates. We used a get to grab the entire table
+
 app.get("/api/candidates", (req, res) => {
 const sql = `SELECT * FROM candidates`;
 
-## db.query(sql, (err, rows) => {
+db.query(sql, (err, rows) => {
+--.
 
 ## and another get to grab a specific row by id
 
@@ -107,8 +126,11 @@ db.query(sql, params, (err, row) => {
 /
 /
 /
-12.2.6 Showed how to use express.js to talk to our SQL db table candidates again. This time we used app.delete to target a row by it's id and delete it from the table.
---
+
+## 12.2.6
+
+## Showed how to use express.js to talk to our SQL db table candidates again. This time we used app.delete to target a row by it's id and delete it from the table.
+
 app.delete("/api/candidate/:id", (req, res) => {
 const sql = `DELETE FROM candidates WHERE id = ?`;
 const params = [req.params.id];
@@ -129,12 +151,15 @@ id: req.params.id,
 }
 });
 });
---
+--.
 It's worth showing this entire thing because of the else if statement that checks to see if what you are trying to delete exists. If so it warns you and doesn't let you do it.
 /
 /
 /
-12.2.7 Showed how to use express.js to talk to our SQL db table candidates again. This we used app.post to add a row to the exsisting candidates table. The generate ID is handeled by the id INTEGER AUTO_INCREMENT in the shema.js.
+
+## 12.2.7
+
+Showed how to use express.js to talk to our SQL db table candidates again. This we used app.post to add a row to the exsisting candidates table. The generate ID is handeled by the id INTEGER AUTO_INCREMENT in the shema.js.
 
 ## Here is a look at the entire code block we added.
 
@@ -163,16 +188,22 @@ data: body,
 });
 });
 });
---
+--.
 The main thing to note is we are using a module provided function to check if the input fields are correct. Everything else works as expected.
 /
 /
 /
-12.3.3 We added a new table to the seeds.sql named parties. We ran all this in the terminal. Basically you can just run the file that is being updated. So if you update schema.sql, after you save go into the terminal and type --source db/schema.sql-- and it will update SQL based on the file. Same applies to seeds.sql just use --source db/seeds.sql-- to update what gets populated. It is worth noting that running the seeds over and over again will add duplicate info. To reset just run all three pages in order to clear it out.
+
+## 12.3.3
+
+We added a new table to the seeds.sql named parties. We ran all this in the terminal. Basically you can just run the file that is being updated. So if you update schema.sql, after you save go into the terminal and type --source db/schema.sql-- and it will update SQL based on the file. Same applies to seeds.sql just use --source db/seeds.sql-- to update what gets populated. It is worth noting that running the seeds over and over again will add duplicate info. To reset just run all three pages in order to clear it out.
 /
 /
 /
-12.3.4 We learned how to link to different tables together. First we modified the candidates table to ensure it has a party_id line. Then we added the constraint line so that it will take this newly created party_id and send it into the parties table to find it's matching id over there.
+
+## 12.3.4
+
+We learned how to link to different tables together. First we modified the candidates table to ensure it has a party_id line. Then we added the constraint line so that it will take this newly created party_id and send it into the parties table to find it's matching id over there.
 
 ## The code looks like this.
 
@@ -184,54 +215,63 @@ party_id INTEGER,
 industry_connected BOOLEAN NOT NULL,
 CONSTRAINT fk_party FOREIGN KEY (party_id) REFERENCES parties(id) ON DELETE SET NULL
 );
---
+--.
 We then updated the seeds to match the new requirements for the candidates table. Also any linked table must come before(above) the main table that is referencing it and when you drop tables the reverse it true.
 /
 /
 /
-12.3.5 Used express.js to work with the sql to get the linked tables. We had to modify the sql vars for both gets to accommodate this new table.
+
+## 12.3.5
+
+Used express.js to work with the sql to get the linked tables. We had to modify the sql vars for both gets to accommodate this new table.
 
 ## We changed the get all sql var to look like this.
 
 app.get("/api/candidates", (req, res) => {
 const sql = `SELECT candidates.*, parties.name AS party_name FROM candidates LEFT JOIN parties ON candidates.party_id = parties.id`;
---
+--.
 This basically says we are getting all info from the candidates table. Then we are only grabbing the name from the parties table where FROM candidates is referencing the root table. Then we bring in the parties table and target it's id by grabbing party_id from the candidates table.
 
 ## Finally for the get by id we just add 1 more line like this.
 
 app.get("/api/candidate/:id", (req, res) => {
 const sql = `SELECT candidates.*, parties.name AS party_name FROM candidates LEFT JOIN parties ON candidates.party_id = parties.id WHERE candidates.id = ?`;
---
+--.
 To make sure it looks at the passed in candidates entire id for the search so we don't just grab every candidate.
 /
 /
 /
-12.3.6 Added a get all parties and get by id parties and delete by id parties. This code is identical to how we handled the candidates table before we linked it to the parties table.
+
+## 12.3.6
+
+Added a get all parties and get by id parties and delete by id parties. This code is identical to how we handled the candidates table before we linked it to the parties table.
 
 ## Get all parties
 
 app.get("/api/parties", (req, res) => {
 const sql = `SELECT * FROM parties`;
---
+--.
 
 ## Get party by id
 
 app.get("/api/party/:id", (req, res) => {
 const sql = `SELECT * FROM parties WHERE id = ?`;
 const params = [req.params.id];
---
+--.
 
 ## Delete party by id
 
 app.delete("/api/party/:id", (req, res) => {
 const sql = `DELETE FROM parties WHERE id = ?`;
 const params = [req.params.id];
---
+--.
 /
 /
 /
-12.3.7 Created a put for party_id in the candidates table. This allows us to update the candidates party. put = edit.
+
+## 12.3.7
+
+Created a put for party_id in the candidates table. This allows us to update the candidates party. put = edit.
 
 ## Code for the put
 
@@ -262,7 +302,7 @@ changes: result.affectedRows,
 }
 });
 });
---
+--.
 
 This code is a bit more involved. But we create a check that tests if you selected a valid party id.
 
@@ -273,8 +313,13 @@ Then in the params var we make sure to call it correctly with req.body.part_id b
 SELECT \* FROM items
 LEFT JOIN categories ON items.category_id = categories.id;
 Was the simple way to join to tables from the quiz.
+/
+/
+/
 
-12.4.3 Set up the voters table in the schema.sql and gave it this
+## 12.4.3
+
+Set up the voters table in the schema.sql and gave it this
 
 ## new time stamp feature.
 
@@ -285,13 +330,14 @@ last_name VARCHAR(30) NOT NULL,
 email VARCHAR(50) NOT NULL,
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
---
-
+--.
 then we seeded 50 voters in seeds.sql.
 /
 /
 /
-12.4.4
+
+## 12.4.4
+
 Moved the connection to sql in the db folder named connection.js and simply added an export to the bottom and the sql require up top. In server.js we required it up top with ./db/connnection.
 
 ## SQL start file
@@ -308,8 +354,8 @@ password: "1Limli2tst9!9pd",
 database: "election",
 });
 
-module.exports = db;--
-
+module.exports = db;
+--.
 Then we created a routes folder and made an index.js that is designed to talk to the other files in this folder.
 
 ## index.js
@@ -320,14 +366,14 @@ const router = express.Router();
 router.use(require("./candidateRoutes"));
 router.use(require("./partyRoutes"));
 
-module.exports = router;--
-
+module.exports = router;
+--.
 In the server.js we added apiRoutes require variable which target the folder but by default will target the index.js.
 
 ## We also added
 
-app.use("/api", apiRoutes);--
-
+app.use("/api", apiRoutes);
+--.
 To add /api to all all future routes that will be uesed by this app.use
 
 Then we added the candidateRoutes.js to the routes folder. Up top we required express followed by the router var which uses express. Then we required db and folder up a bit to find the new connection folder and also added that inputCheck function the module provided. Then in server.js we pulled out all of the app.get, .posts etc... that relate to the candidates and moved them into here. We had to change app to router and remove /api since server.js is already applying it . At the bottom we exported it using export.module.
@@ -457,13 +503,15 @@ id: req.params.id,
 });
 });
 
-module.exports = router;--
-
+module.exports = router;
+--.
 Then we literally did the exact same thing to parties. In index.js we made sure to add router.use(require("./fileNameHere")); seeing as how server.js talks to index.js first. Index.js serves as the first stop to route server.js to the correct routes file.
 /
 /
 /
-12.4.5
+
+## 12.4.5
+
 Simply added the get all and the get by ID for voters. The big change here was they introduced ORDER BY which is added just after the FROM voters line when creating the sql variable that gets passed in.
 
 ## ORDER BY example
@@ -471,3 +519,10 @@ Simply added the get all and the get by ID for voters. The big change here was t
 const sql = `SELECT * FROM voters ORDER BY last_name`;--
 
 You can also slap a DESC at the end of it if you wanted to change the order from A-Z to Z-A.
+/
+/
+/
+
+## 12.4.6
+
+Added the post, put and delete for the page. Nothing really new here. In fact I was able to do this one entirely by copy and pasting candidates over and modifying the names. Look at the code added in 12.4.4 if unsure.
