@@ -586,3 +586,10 @@ GROUP BY candidate_id ORDER BY count DESC;
 --.
 
 To grab all information from the candidtes table. Then we grabbed it's passed in name from the parties table with parties.name and renamed the columun to party_name. Then we tell it to COUNT the candidates_id from the votes table and renamed it to count. Then we used the JOIN feature to allow the referenced parties.name and candidate_id into the table. Finally we used GROUP BY candidate_id so it will split everything based on the votes each candidate received. Otherwise it only shows the first candidate and assigns the total of all votes the them.
+/
+/
+/
+
+## 12.5.6
+
+Added the router.get to the voteRoutes.js to get all the information and display it. Nothing out of the ordinary here they just wanted us to do this one on our own which was fine.
