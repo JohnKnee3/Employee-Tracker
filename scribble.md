@@ -460,3 +460,14 @@ id: req.params.id,
 module.exports = router;--
 
 Then we literally did the exact same thing to parties. In index.js we made sure to add router.use(require("./fileNameHere")); seeing as how server.js talks to index.js first. Index.js serves as the first stop to route server.js to the correct routes file.
+/
+/
+/
+12.4.5
+Simply added the get all and the get by ID for voters. The big change here was they introduced ORDER BY which is added just after the FROM voters line when creating the sql variable that gets passed in.
+
+## ORDER BY example
+
+const sql = `SELECT * FROM voters ORDER BY last_name`;--
+
+You can also slap a DESC at the end of it if you wanted to change the order from A-Z to Z-A.
