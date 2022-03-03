@@ -291,3 +291,172 @@ then we seeded 50 voters in seeds.sql.
 /
 /
 /
+12.4.4
+Moved the connection to sql in the db folder named connection.js and simply added an export to the bottom and the sql require up top. In server.js we required it up top with ./db/connnection.
+
+## SQL start file
+
+const mysql = require("mysql2");
+
+// Connect to database
+const db = mysql.createConnection({
+host: "localhost",
+// Your MySQL username,
+user: "root",
+// Your MySQL password
+password: "1Limli2tst9!9pd",
+database: "election",
+});
+
+module.exports = db;--
+
+Then we created a routes folder and made an index.js that is designed to talk to the other files in this folder.
+
+## index.js
+
+const express = require("express");
+const router = express.Router();
+
+router.use(require("./candidateRoutes"));
+router.use(require("./partyRoutes"));
+
+module.exports = router;--
+
+In the server.js we added apiRoutes require variable which target the folder but by default will target the index.js.
+
+## We also added
+
+app.use("/api", apiRoutes);--
+
+To add /api to all all future routes that will be uesed by this app.use
+
+Then we added the candidateRoutes.js to the routes folder. Up top we required express followed by the router var which uses express. Then we required db and folder up a bit to find the new connection folder and also added that inputCheck function the module provided. Then in server.js we pulled out all of the app.get, .posts etc... that relate to the candidates and moved them into here. We had to change app to router and remove /api since server.js is already applying it . At the bottom we exported it using export.module.
+
+## candidatesRoutes.js code
+
+const express = require("express");
+const router = express.Router();
+const db = require("../../db/connection");
+const inputCheck = require("../../utils/inputCheck");
+
+// Get all candidates and their party affiliation
+router.get("/candidates", (req, res) => {
+const sql = `SELECT candidates.*, parties.name AS party_name FROM candidates LEFT JOIN parties ON candidates.party_id = parties.id`;
+
+db.query(sql, (err, rows) => {
+if (err) {
+res.status(500).json({ error: err.message });
+return;
+}
+res.json({
+message: "success",
+data: rows,
+});
+});
+});
+
+// Get single candidate with party affiliation
+router.get("/candidate/:id", (req, res) => {
+const sql = `SELECT candidates.*, parties.name AS party_name FROM candidates LEFT JOIN parties ON candidates.party_id = parties.id WHERE candidates.id = ?`;
+const params = [req.params.id];
+
+db.query(sql, params, (err, row) => {
+if (err) {
+res.status(400).json({ error: err.message });
+return;
+}
+res.json({
+message: "success",
+data: row,
+});
+});
+});
+
+// Create a candidate
+router.post("/candidate", ({ body }, res) => {
+// Candidate is allowed not to be affiliated with a party
+const errors = inputCheck(
+body,
+"first_name",
+"last_name",
+"industry_connected"
+);
+if (errors) {
+res.status(400).json({ error: errors });
+return;
+}
+
+const sql = `INSERT INTO candidates (first_name, last_name, industry_connected, party_id) VALUES (?,?,?,?)`;
+const params = [
+body.first_name,
+body.last_name,
+body.industry_connected,
+body.party_id,
+];
+
+db.query(sql, params, (err, result) => {
+if (err) {
+res.status(400).json({ error: err.message });
+return;
+}
+res.json({
+message: "success",
+data: body,
+changes: result.affectedRows,
+});
+});
+});
+
+// Update a candidate's party
+router.put("/candidate/:id", (req, res) => {
+// Candidate is allowed to not have party affiliation
+const errors = inputCheck(req.body, "party_id");
+if (errors) {
+res.status(400).json({ error: errors });
+return;
+}
+
+const sql = `UPDATE candidates SET party_id = ? WHERE id = ?`;
+const params = [req.body.party_id, req.params.id];
+db.query(sql, params, (err, result) => {
+if (err) {
+res.status(400).json({ error: err.message });
+// check if a record was found
+} else if (!result.affectedRows) {
+res.json({
+message: "Candidate not found",
+});
+} else {
+res.json({
+message: "success",
+data: req.body,
+changes: result.affectedRows,
+});
+}
+});
+});
+
+// Delete a candidate
+router.delete("/candidate/:id", (req, res) => {
+const sql = `DELETE FROM candidates WHERE id = ?`;
+const params = [req.params.id];
+db.query(sql, params, (err, result) => {
+if (err) {
+res.statusMessage(400).json({ error: res.message });
+} else if (!result.affectedRows) {
+res.json({
+message: "Candidate not found",
+});
+} else {
+res.json({
+message: "deleted",
+changes: result.affectedRows,
+id: req.params.id,
+});
+}
+});
+});
+
+module.exports = router;--
+
+Then we literally did the exact same thing to parties. In index.js we made sure to add router.use(require("./fileNameHere")); seeing as how server.js talks to index.js first. Index.js serves as the first stop to route server.js to the correct routes file.
