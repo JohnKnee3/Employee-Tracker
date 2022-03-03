@@ -555,3 +555,10 @@ DROP TABLE IF EXISTS parties;
 DROP TABLE IF EXISTS voters;
 --.
 The best I can tell you make sure to drop everything that requires a fk first from bottom to top, Then afterwards you drop everything else in order from top to bottom? This may be wrong.
+/
+/
+/
+
+## 12.5.4
+
+Built the post to add a voter. I again was able to copy and paste the candidatesRoutes.js and by carefully following the steps make it work before the module showed me. No real new info here. But it is worth noting we have not built the router.get so in order to see if it worked I had to go into the MySWL shell USE election;- SELECT \* FROM votes; - to see that it worked after using insomnia to perform my post.
