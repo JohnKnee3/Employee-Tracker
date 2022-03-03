@@ -562,3 +562,27 @@ The best I can tell you make sure to drop everything that requires a fk first fr
 ## 12.5.4
 
 Built the post to add a voter. I again was able to copy and paste the candidatesRoutes.js and by carefully following the steps make it work before the module showed me. No real new info here. But it is worth noting we have not built the router.get so in order to see if it worked I had to go into the MySWL shell USE election;- SELECT \* FROM votes; - to see that it worked after using insomnia to perform my post.
+/
+/
+/
+
+## 12.5.5
+
+Added a huge query to select things in the shell.
+
+## First we inserted a handful of votes into the votes table
+
+INSERT INTO votes (voter_id, candidate_id)
+VALUES(3,1), (4,2), (5,2), (6,2), (7,2), (8,3), (9,3);
+--.
+
+## Then we added this beast
+
+SELECT candidates.\*, parties.name AS party_name, COUNT(candidate_id) AS count
+FROM votes
+LEFT JOIN candidates ON votes.candidate_id = candidates.id
+LEFT JOIN parties ON candidates.party_id = parties.id
+GROUP BY candidate_id ORDER BY count DESC;
+--.
+
+To grab all information from the candidtes table. Then we grabbed it's passed in name from the parties table with parties.name and renamed the columun to party_name. Then we tell it to COUNT the candidates_id from the votes table and renamed it to count. Then we used the JOIN feature to allow the referenced parties.name and candidate_id into the table. Finally we used GROUP BY candidate_id so it will split everything based on the votes each candidate received. Otherwise it only shows the first candidate and assigns the total of all votes the them.
