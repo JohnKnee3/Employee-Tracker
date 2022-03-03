@@ -526,3 +526,32 @@ You can also slap a DESC at the end of it if you wanted to change the order from
 ## 12.4.6
 
 Added the post, put and delete for the page. Nothing really new here. In fact I was able to do this one entirely by copy and pasting candidates over and modifying the names. Look at the code added in 12.4.4 if unsure.
+/
+/
+/
+
+## 12.5.3
+
+We created a votes table. Then we were introduced to 2 constraints that used a fk with ON DELETE CASCADE. Essentially what this means is that if you delete the voter or the candidate from their respective table they will also delete in the votes table.
+
+## The CASCADE syntax looks like this
+
+CREATE TABLE votes (
+id INTEGER AUTO_INCREMENT PRIMARY KEY,
+voter_id INTEGER NOT NULL,
+candidate_id INTEGER NOT NULL,
+created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+CONSTRAINT uc_voter UNIQUE (voter_id),
+CONSTRAINT fk_voter FOREIGN KEY (voter_id) REFERENCES voters(id) ON DELETE CASCADE,
+CONSTRAINT fk_candidate FOREIGN KEY (candidate_id) REFERENCES candidates(id) ON DELETE CASCADE
+);
+--.
+
+## They were also careful to make sure to drop things in this order
+
+DROP TABLE IF EXISTS votes;
+DROP TABLE IF EXISTS candidates;
+DROP TABLE IF EXISTS parties;
+DROP TABLE IF EXISTS voters;
+--.
+The best I can tell you make sure to drop everything that requires a fk first from bottom to top, Then afterwards you drop everything else in order from top to bottom? This may be wrong.
