@@ -1,3 +1,11 @@
+INSERT INTO role
+  (title, salary, department_id)
+VALUES
+  ('BIG BOSS', 14.25, 1),
+  ('small boss', 14.24, 1),
+  ('Boss of Themselves', 14.23, 2);
+
+
 INSERT INTO employee
   (first_name, last_name, role_id, manager_id)
 VALUES
