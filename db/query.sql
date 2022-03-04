@@ -27,8 +27,25 @@
                 -- LEFT JOIN role ON employee.role_id = role.id
                 -- LEFT JOIN department ON role.department_id = department.id;
 
-                --VIEW ALL DEPARTMENTS
-                SELECT department.id, department.name AS Department_Names FROM department;
+                
+                -- SELECT department.id, department.name AS department_names FROM department;
+
+                -- SELECT role.title AS job_title,
+                -- role.id,
+                -- department.name AS department,
+                -- role.salary
+                --  FROM role
+                --  LEFT JOIN department ON role.department_id = department.id;
+
+                SELECT employee.id,
+                employee.first_name,
+                employee.last_name,
+                role.title AS job_title,
+                department.name AS department,
+                role.salary
+                 FROM employee
+                    LEFT JOIN role ON employee.role_id = role.id
+                    LEFT JOIN department ON role.department_id = department.id;
 
 
 
