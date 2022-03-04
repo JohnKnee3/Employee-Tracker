@@ -1,3 +1,10 @@
+INSERT INTO department
+  (name)
+VALUES
+  ('What You Always Wanted'),
+  ('Where Dreams Go to Die'),
+  ('Somewhere in Between');
+
 INSERT INTO role
   (title, salary, department_id)
 VALUES
