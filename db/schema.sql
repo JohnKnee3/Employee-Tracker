@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS department;
-DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS role;
 
 CREATE TABLE department (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -11,7 +11,11 @@ CREATE TABLE role (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(50) NOT NULL,
   salary DECIMAL (18,2) NOT NULL,
-  department_id INTEGER NOT NULL
+  department_id INTEGER,
+   CONSTRAINT fk_department
+    FOREIGN KEY (deaprtment_id)
+    REFERENCES department(id)
+    ON DELETE SET NULL
 );
 
 CREATE TABLE employee (
