@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS workwork;
+CREATE DATABASE workwork;
+USE workwork;
