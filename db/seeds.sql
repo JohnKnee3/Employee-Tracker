@@ -22,8 +22,8 @@ VALUES
   ('Piers', 'Gaveston', 2, 1),
   ('Charles', 'LeRoi', 3, 1),
   ('Katherine', 'Mansfield', 3, 1),
-  ('Dora', 'Carrington', 4, 1),
-  ('Edward', 'Bellamy', 4, 1),
-  ('Montague', 'Summers', 4, 1),
-  ('Octavia', 'Butler', 4, 1),
-  ('Unica', 'Zurn', 4, 1);
+  ('Dora', 'Carrington', 4, 2),
+  ('Edward', 'Bellamy', 4, 2),
+  ('Montague', 'Summers', 4, 2),
+  ('Octavia', 'Butler', 4, 3),
+  ('Unica', 'Zurn', 4, 3);
