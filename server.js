@@ -28,6 +28,7 @@ const promptQuestion = () => {
     });
 };
 
+//Has a peek at all the department names
 const viewAllDepartments = () => {
   console.log("");
   console.log("*******************************");
