@@ -119,7 +119,6 @@ const viewAllEmployees = () => {
 };
 
 const AddDepartment = () => {
-  console.log("does this work");
   inquirer
     .prompt([
       {
@@ -137,7 +136,16 @@ const AddDepartment = () => {
       },
     ])
     .then((answer) => {
-      console.log(answer);
-      promptQuestion();
+      console.log(answer.name);
+      const sql = `INSERT INTO department (name)
+      VALUES (?)`;
+
+      db.query(sql, answer.name, (err, result) => {
+        if (err) {
+          res.status(400).json({ error: err.message });
+          return;
+        }
+        promptQuestion();
+      });
     });
 };
