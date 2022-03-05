@@ -20,6 +20,7 @@ const promptQuestion = () => {
         "View All Departments",
         "View All Roles",
         "View All Employees",
+        "Add a Department",
         "All Done",
       ],
     })
@@ -30,6 +31,8 @@ const promptQuestion = () => {
         viewAllRoles();
       } else if (answer.choice === "View All Employees") {
         viewAllEmployees();
+      } else if (answer.choice === "Add a Department") {
+        AddDepartment();
       } else if (answer.choice === "All Done") {
         console.log("You did it!!!");
         process.exit();
@@ -113,4 +116,28 @@ const viewAllEmployees = () => {
 
     promptQuestion();
   });
+};
+
+const AddDepartment = () => {
+  console.log("does this work");
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is the name of the new department? (Required)",
+        validate: (nameInput) => {
+          if (nameInput) {
+            return true;
+          } else {
+            console.log("Please enter the Department's Name!");
+            return false;
+          }
+        },
+      },
+    ])
+    .then((answer) => {
+      console.log(answer);
+      promptQuestion();
+    });
 };
