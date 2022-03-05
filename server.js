@@ -232,7 +232,7 @@ const AddRole = () => {
     });
 };
 
-//Add a Role
+//Add an Employee
 const AddEmployee = () => {
   inquirer
     .prompt([
@@ -296,22 +296,37 @@ const AddEmployee = () => {
             db.query(managerInfo, (err, data) => {
               if (err) throw err;
 
-              const manager = data.map(({ first_name, last_name, id }) => ({
+              const managerList = data.map(({ first_name, last_name, id }) => ({
                 name: first_name + " " + last_name,
                 value: id,
               }));
 
-              console.log(manager);
-              const sql = `INSERT INTO employee (first_name, last_name, role_id)
-            VALUES (?,?,?)`;
+              console.log(managerList);
 
-              db.query(sql, params, (err, result) => {
-                if (err) {
-                  res.status(400).json({ error: err.message });
-                  return;
-                }
-                viewAllEmployees();
-              });
+              inquirer
+                .prompt([
+                  {
+                    type: "list",
+                    name: "manager",
+                    message: "Who is this Employee Manager?",
+                    choices: managerList,
+                  },
+                ])
+                .then((managerChoice) => {
+                  const manager = managerChoice.manager;
+                  params.push(manager);
+
+                  const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+            VALUES (?,?,?,?)`;
+
+                  db.query(sql, params, (err, result) => {
+                    if (err) {
+                      res.status(400).json({ error: err.message });
+                      return;
+                    }
+                    viewAllEmployees();
+                  });
+                });
             });
           });
       });
