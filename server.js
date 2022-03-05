@@ -193,9 +193,6 @@ const AddRole = () => {
       },
     ])
     .then((answer) => {
-      console.log(answer.name);
-      console.log(answer.salary);
-
       // get from the department table
       const params = [answer.name, answer.salary];
 
@@ -219,7 +216,6 @@ const AddRole = () => {
             const dept = deptChoice.dept;
             params.push(dept);
 
-            console.log(params);
             const sql = `INSERT INTO role (title, salary, department_id)
             VALUES (?,?,?)`;
 
@@ -301,8 +297,6 @@ const AddEmployee = () => {
                 value: id,
               }));
 
-              console.log(managerList);
-
               inquirer
                 .prompt([
                   {
@@ -380,9 +374,8 @@ const updateEmployeeRole = () => {
             .then((roleChoice) => {
               const role = roleChoice.role;
               params.push(role);
-              console.log(params);
+
               params.reverse();
-              console.log(params);
 
               const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
               db.query(sql, params, (err, reult) => {
