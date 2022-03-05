@@ -290,16 +290,28 @@ const AddEmployee = () => {
             const role = roleChoice.role;
             params.push(role);
 
-            console.log(params);
-            const sql = `INSERT INTO employee (first_name, last_name, role_id)
+            //get manager from employee table
+            const managerInfo = `SELECT * FROM employee`;
+
+            db.query(managerInfo, (err, data) => {
+              if (err) throw err;
+
+              const manager = data.map(({ first_name, last_name, id }) => ({
+                name: first_name + " " + last_name,
+                value: id,
+              }));
+
+              console.log(manager);
+              const sql = `INSERT INTO employee (first_name, last_name, role_id)
             VALUES (?,?,?)`;
 
-            db.query(sql, params, (err, result) => {
-              if (err) {
-                res.status(400).json({ error: err.message });
-                return;
-              }
-              viewAllEmployees();
+              db.query(sql, params, (err, result) => {
+                if (err) {
+                  res.status(400).json({ error: err.message });
+                  return;
+                }
+                viewAllEmployees();
+              });
             });
           });
       });
