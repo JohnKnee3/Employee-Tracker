@@ -21,6 +21,7 @@ const promptQuestion = () => {
         "View All Roles",
         "View All Employees",
         "Add a Department",
+        "Add a Role",
         "All Done",
       ],
     })
@@ -33,6 +34,8 @@ const promptQuestion = () => {
         viewAllEmployees();
       } else if (answer.choice === "Add a Department") {
         AddDepartment();
+      } else if (answer.choice === "Add a Role") {
+        AddRole();
       } else if (answer.choice === "All Done") {
         console.log("You did it!!!");
         process.exit();
@@ -118,6 +121,7 @@ const viewAllEmployees = () => {
   });
 };
 
+//Add a Department
 const AddDepartment = () => {
   inquirer
     .prompt([
@@ -136,7 +140,6 @@ const AddDepartment = () => {
       },
     ])
     .then((answer) => {
-      console.log(answer.name);
       const sql = `INSERT INTO department (name)
       VALUES (?)`;
 
@@ -147,5 +150,52 @@ const AddDepartment = () => {
         }
         promptQuestion();
       });
+    });
+};
+
+//Add a Role
+const AddRole = () => {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is the name of the new Role? (Required)",
+        validate: (nameInput) => {
+          if (nameInput) {
+            return true;
+          } else {
+            console.log("Please enter the Role's Name!");
+            return false;
+          }
+        },
+      },
+      {
+        type: "number",
+        name: "salary",
+        message: "What is the New Role's salary? (Required)",
+        validate: (nameInput) => {
+          if (nameInput) {
+            return true;
+          } else {
+            console.log(
+              " is not a number.  Please enter the salary!  Press up then down to clear NaN error message and try again."
+            );
+            return false;
+          }
+        },
+      },
+    ])
+    .then((answer) => {
+      console.log(answer.name);
+      console.log(answer.salary);
+
+      // db.query(sql, answer.name, (err, result) => {
+      //   if (err) {
+      //     res.status(400).json({ error: err.message });
+      //     return;
+      //   }
+      promptQuestion();
+      // });
     });
 };
