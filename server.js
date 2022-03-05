@@ -190,7 +190,7 @@ const AddRole = () => {
       console.log(answer.name);
       console.log(answer.salary);
 
-      const params = [answer.role, answer.salary];
+      const params = [answer.name, answer.salary];
 
       // grab dept from department table
       const deptInfo = `SELECT name, id FROM department`;
@@ -212,6 +212,8 @@ const AddRole = () => {
           .then((deptChoice) => {
             const dept = deptChoice.dept;
             params.push(dept);
+            console.log(params);
+            promptQuestion();
           });
 
         // db.query(sql, answer.name, (err, result) => {
@@ -219,7 +221,7 @@ const AddRole = () => {
         //     res.status(400).json({ error: err.message });
         //     return;
         //   }
-        promptQuestion();
+
         // });
       });
     });
