@@ -16,11 +16,13 @@ const promptQuestion = () => {
       type: "list",
       message: "Do something.",
       name: "choice",
-      choices: ["View All Departments", "All Done"],
+      choices: ["View All Departments", "View All Roles", "All Done"],
     })
     .then((answer) => {
       if (answer.choice === "View All Departments") {
         viewAllDepartments();
+      } else if (answer.choice === "View All Roles") {
+        viewAllRoles();
       } else if (answer.choice === "All Done") {
         console.log("You did it!!!");
         process.exit();
@@ -32,11 +34,37 @@ const promptQuestion = () => {
 const viewAllDepartments = () => {
   console.log("");
   console.log("*******************************");
-  console.log("Welcome to the department land.");
+  console.log("       All Departments         ");
   console.log("");
   console.log("*******************************");
 
   const sql = `SELECT department.id, department.name AS department_names FROM department`;
+
+  db.query(sql, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    console.table(rows);
+
+    promptQuestion();
+  });
+};
+
+//Has a peek at all the department names
+const viewAllRoles = () => {
+  console.log("");
+  console.log("*******************************");
+  console.log("          All Roles            ");
+  console.log("");
+  console.log("*******************************");
+
+  const sql = `SELECT role.title AS job_title,
+                role.id,
+                department.name AS department,
+                role.salary
+                FROM role
+                LEFT JOIN department ON role.department_id = department.id`;
 
   db.query(sql, (err, rows) => {
     if (err) {
