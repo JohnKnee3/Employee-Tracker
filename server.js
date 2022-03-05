@@ -16,13 +16,20 @@ const promptQuestion = () => {
       type: "list",
       message: "Do something.",
       name: "choice",
-      choices: ["View All Departments", "View All Roles", "All Done"],
+      choices: [
+        "View All Departments",
+        "View All Roles",
+        "View All Employees",
+        "All Done",
+      ],
     })
     .then((answer) => {
       if (answer.choice === "View All Departments") {
         viewAllDepartments();
       } else if (answer.choice === "View All Roles") {
         viewAllRoles();
+      } else if (answer.choice === "View All Employees") {
+        viewAllEmployees();
       } else if (answer.choice === "All Done") {
         console.log("You did it!!!");
         process.exit();
@@ -30,7 +37,7 @@ const promptQuestion = () => {
     });
 };
 
-//Has a peek at all the department names
+//Peek at all the Departments
 const viewAllDepartments = () => {
   console.log("");
   console.log("*******************************");
@@ -51,7 +58,7 @@ const viewAllDepartments = () => {
   });
 };
 
-//Has a peek at all the department names
+//Peek at all the Roles
 const viewAllRoles = () => {
   console.log("");
   console.log("*******************************");
@@ -65,6 +72,37 @@ const viewAllRoles = () => {
                 role.salary
                 FROM role
                 LEFT JOIN department ON role.department_id = department.id`;
+
+  db.query(sql, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    console.table(rows);
+
+    promptQuestion();
+  });
+};
+
+//Peek at all the Departments
+const viewAllEmployees = () => {
+  console.log("");
+  console.log("*******************************");
+  console.log("         All Employees         ");
+  console.log("");
+  console.log("*******************************");
+
+  const sql = `SELECT employee.id,
+                employee.first_name,
+                employee.last_name,
+                role.title AS job_title,
+                department.name AS department,
+                role.salary,
+                CONCAT (manager.first_name, " ", manager.last_name) AS manager
+                FROM employee
+                LEFT JOIN role ON employee.role_id = role.id
+                LEFT JOIN department ON role.department_id = department.id
+                LEFT JOIN employee manager ON employee.manager_id = manager.id`;
 
   db.query(sql, (err, rows) => {
     if (err) {
