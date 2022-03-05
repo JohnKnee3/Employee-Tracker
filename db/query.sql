@@ -58,7 +58,7 @@
                 -- INSERT INTO employee (first_name, last_name, role_id, manager_id)
                 -- VALUES ('Robo', 'Boto', 5, 1);
 
-                UPDATE employee SET role_id = 3 WHERE id = 6;
+                -- UPDATE employee SET role_id = 3 WHERE id = 6;
 
 
 
