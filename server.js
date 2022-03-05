@@ -381,10 +381,15 @@ const updateEmployeeRole = () => {
               const role = roleChoice.role;
               params.push(role);
               console.log(params);
+              params.reverse();
+              console.log(params);
 
               const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
+              db.query(sql, params, (err, reult) => {
+                if (err) throw err;
 
-              // viewAllEmployees();
+                viewAllEmployees();
+              });
             });
         });
       });
