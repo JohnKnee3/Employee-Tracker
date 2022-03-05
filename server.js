@@ -6,8 +6,18 @@ const inquirer = require("inquirer");
 db.connect((err) => {
   if (err) throw err;
   console.log("Database connected.");
-  promptQuestion();
+  introTitle();
 });
+
+const introTitle = () => {
+  console.log("");
+  console.log("*******************************");
+  console.log("        Employee Tracker        ");
+  console.log("            For You             ");
+  console.log("");
+  console.log("*******************************");
+  promptQuestion();
+};
 
 //The question that starts it off and serves as the hub
 const promptQuestion = () => {
