@@ -190,12 +190,37 @@ const AddRole = () => {
       console.log(answer.name);
       console.log(answer.salary);
 
-      // db.query(sql, answer.name, (err, result) => {
-      //   if (err) {
-      //     res.status(400).json({ error: err.message });
-      //     return;
-      //   }
-      promptQuestion();
-      // });
+      const params = [answer.role, answer.salary];
+
+      // grab dept from department table
+      const deptInfo = `SELECT name, id FROM department`;
+
+      db.query(deptInfo, (err, data) => {
+        if (err) throw err;
+
+        const dept = data.map(({ name, id }) => ({ name: name, value: id }));
+
+        inquirer
+          .prompt([
+            {
+              type: "list",
+              name: "dept",
+              message: "What department is this role in?",
+              choices: dept,
+            },
+          ])
+          .then((deptChoice) => {
+            const dept = deptChoice.dept;
+            params.push(dept);
+          });
+
+        // db.query(sql, answer.name, (err, result) => {
+        //   if (err) {
+        //     res.status(400).json({ error: err.message });
+        //     return;
+        //   }
+        promptQuestion();
+        // });
+      });
     });
 };
