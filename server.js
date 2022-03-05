@@ -148,7 +148,7 @@ const AddDepartment = () => {
           res.status(400).json({ error: err.message });
           return;
         }
-        promptQuestion();
+        viewAllDepartments();
       });
     });
 };
@@ -212,17 +212,19 @@ const AddRole = () => {
           .then((deptChoice) => {
             const dept = deptChoice.dept;
             params.push(dept);
+
             console.log(params);
-            promptQuestion();
+            const sql = `INSERT INTO role (title, salary, department_id)
+            VALUES (?,?,?)`;
+
+            db.query(sql, params, (err, result) => {
+              if (err) {
+                res.status(400).json({ error: err.message });
+                return;
+              }
+              viewAllRoles();
+            });
           });
-
-        // db.query(sql, answer.name, (err, result) => {
-        //   if (err) {
-        //     res.status(400).json({ error: err.message });
-        //     return;
-        //   }
-
-        // });
       });
     });
 };
